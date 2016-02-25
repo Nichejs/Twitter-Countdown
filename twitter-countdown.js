@@ -34,7 +34,16 @@ var questions = [
 			return _.isEmpty(cronparser.parseString(cronExpression).errors) ? true : 'Provide a valid crontab expression';
 		}
 	},
-
+	{
+		type: 'input',
+		name: 'email',
+		message: 'Your email (we will email you in case of errors)',
+		validate: function(email){
+			return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
+			? true
+			: 'Provide a valid email';
+		}
+	},
 ];
 
 
