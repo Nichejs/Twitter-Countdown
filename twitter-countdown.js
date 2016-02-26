@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var cowsay = require('cowsay'),
 	inquirer = require('inquirer'),
 	fs = require('fs'),
