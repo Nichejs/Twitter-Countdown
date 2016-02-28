@@ -1,4 +1,4 @@
 var should = require('should'),
-  countdown = require('../twitter-countdown.js');
+  countdown = require('../src/countdown.js');
 
   // Test some stuff

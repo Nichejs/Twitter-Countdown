@@ -3,7 +3,10 @@ var cowsay = require('cowsay'),
 	inquirer = require('inquirer'),
 	fs = require('fs'),
 	cronparser = require('cron-parser'),
-	_ = require('lodash');
+  humanToCron = require('human-to-cron'),
+	_ = require('lodash'),
+  // internal deps
+  Countdown = require('./src/countdown.js');
 
 
 
@@ -29,11 +32,21 @@ var questions = [
 	{
 		type: 'input',
 		name: 'crontab',
-		message: 'What is your crontab config?',
-		default: '* * * * *',
+		message: 'How often do you want to run this? (every week, at midnight, friday 15:45..., or a crontab expression)',
+		default: 'every day',
 		validate: function(cronExpression){
+      if(_.isEmpty(cronparser.parseString(cronExpression).errors)){
+        return true;
+      }
+      var cronExpression = humanToCron(cronExpression);
 			return _.isEmpty(cronparser.parseString(cronExpression).errors) ? true : 'Provide a valid crontab expression';
-		}
+		},
+    filter : function(cronExpression){
+      if(_.isEmpty(cronparser.parseString(cronExpression).errors)){
+        return cronExpression;
+      }
+      return humanToCron(cronExpression);
+    }
 	},
 	{
 		type: 'input',
@@ -49,6 +62,7 @@ var questions = [
 
 
 inquirer.prompt(questions, function(userData){
+  var counter = new Countdown(userData);
 });
 
 
