@@ -3,12 +3,10 @@ var cowsay = require('cowsay'),
 	inquirer = require('inquirer'),
 	fs = require('fs'),
 	cronparser = require('cron-parser'),
-  humanToCron = require('human-to-cron'),
+  	humanToCron = require('human-to-cron'),
 	_ = require('lodash'),
-  // internal deps
-  Countdown = require('./src/countdown.js');
-
-
+  	// internal deps
+  	Countdown = require('./src/countdown.js');
 
 // Welcome message with cowsay
 var message = cowsay.say({
@@ -29,35 +27,34 @@ var questions = [
 			return fs.existsSync(filename) ? true : 'File ' + filename + ' does not exist.';
 		}
 	},
-  {
-    type: 'input',
-    name: 'date',
-    message: 'What is the ending date? (YYYY-MM-DD HH:MM:SS, you can leave empty anything from right to left)',
-    validate: function(dateInput){
-      return Date.parse(dateInput) > 0 ? true : 'Provide a valid date';
-    },
-    filter: function(dateInput){
-      return new Date(Date.parse(dateInput));
-    }
-  },
+	{
+    	type: 'input',
+    	name: 'date',
+    	message: 'What is the ending date? (YYYY-MM-DD HH:MM:SS, you can leave empty anything from right to left)',
+    	validate: function(dateInput){
+      		return Date.parse(dateInput) > 0 ? true : 'Provide a valid date';
+    	},
+    	filter: function(dateInput){
+      		return new Date(Date.parse(dateInput));
+    	}
+  	},
 	{
 		type: 'input',
 		name: 'crontab',
 		message: 'How often do you want to run this? (every week, at midnight, friday 15:45..., or a crontab expression)',
 		default: 'every day',
 		validate: function(cronExpression){
-      if(_.isEmpty(cronparser.parseString(cronExpression).errors)){
-        return true;
-      }
-      var cronExpression = humanToCron(cronExpression);
+      		if(_.isEmpty(cronparser.parseString(cronExpression).errors)){
+        		return true;
+     		}
+      		var cronExpression = humanToCron(cronExpression);
 			return _.isEmpty(cronparser.parseString(cronExpression).errors) ? true : 'Provide a valid crontab expression';
 		},
-    filter : function(cronExpression){
-      if(_.isEmpty(cronparser.parseString(cronExpression).errors)){
-        return cronExpression;
-      }
-      return humanToCron(cronExpression);
-    }
+    	filter : function(cronExpression){
+	      	return _.isEmpty(cronparser.parseString(cronExpression).errors)
+				? cronExpression
+				: humanToCron(cronExpression);
+    	}
 	},
 	{
 		type: 'input',

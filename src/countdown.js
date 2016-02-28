@@ -13,7 +13,6 @@ function Countdown(config){
     });
     return deferred.promise;
   }
-
   return countdown;
 };
 
