@@ -29,6 +29,17 @@ var questions = [
 			return fs.existsSync(filename) ? true : 'File ' + filename + ' does not exist.';
 		}
 	},
+  {
+    type: 'input',
+    name: 'date',
+    message: 'What is the ending date? (YYYY-MM-DD HH:MM:SS, you can leave empty anything from right to left)',
+    validate: function(dateInput){
+      return Date.parse(dateInput) > 0 ? true : 'Provide a valid date';
+    },
+    filter: function(dateInput){
+      return new Date(Date.parse(dateInput));
+    }
+  },
 	{
 		type: 'input',
 		name: 'crontab',
