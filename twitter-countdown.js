@@ -3,9 +3,9 @@ var cowsay = require('cowsay'),
 	inquirer = require('inquirer'),
 
   	// internal deps
-  	Countdown = require('./src/countdown.js'),
-  	Validator = require('./src/validator.js');
-  	Filter = require('./src/filter.js');
+  	Countdown = require('./src/countdown'),
+  	Validator = require('./src/validator');
+  	Filter = require('./src/filter');
 
 // Welcome message with cowsay
 var message = cowsay.say({
